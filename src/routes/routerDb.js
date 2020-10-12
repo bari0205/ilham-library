@@ -49,9 +49,10 @@ router.patch("/books/:id", authenticated, updateBooks);
 router.delete("/books/:id", authenticated, deleteBooks);
 
 //auth
-const { register, login } = require("../controller/auth");
+const { register, login, checkAuth } = require("../controller/auth");
 
 router.post("/register", register);
 router.post("/login", login);
+router.get("/checkAuth", authenticated, checkAuth);
 
 module.exports = router;

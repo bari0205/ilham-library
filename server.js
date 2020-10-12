@@ -7,10 +7,15 @@ const app = express();
 //use dontenv
 require("dotenv").config();
 
+//use cors
+const cors = require("cors");
+
 const router = require("./src/routes/router");
 const routerDb = require("./src/routes/routerDb");
 
 app.use(express.json());
+
+app.use(cors());
 
 app.use("/api/v1/", routerDb);
 
