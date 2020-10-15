@@ -42,12 +42,13 @@ exports.checkAuth = async (req, res) => {
 
 exports.register = async (req, res, next) => {
   try {
-    const { fullName, email, password, phone, address } = req.body;
+    const { fullName, email, gender, password, phone, address } = req.body;
 
     //Validation
     const schema = joi.object({
       fullName: joi.string().min(3).required(),
       email: joi.string().email().min(10).required(),
+      gender: joi.string().min(3).required(),
       password: joi.string().min(8).required(),
       phone: joi.number().min(10).required(),
       address: joi.string().required(),
@@ -92,6 +93,7 @@ exports.register = async (req, res, next) => {
     const user = await User.create({
       fullName,
       email,
+      gender,
       password: hashedPassword,
       phone,
       address,
@@ -110,6 +112,7 @@ exports.register = async (req, res, next) => {
       message: "You has been registered",
       data: {
         email: user.email,
+        gender,
         fullName,
         phone,
         address,
