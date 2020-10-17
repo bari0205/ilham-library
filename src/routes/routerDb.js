@@ -40,10 +40,14 @@ const {
   createBooks,
   updateBooks,
   deleteBooks,
+  readUserBooks,
+  readAprovedBooks,
 } = require("../controller/books");
 
 router.get("/books", getBooks);
 router.get("/books/:id", readOneBooks);
+router.get("/book-user/:id", readUserBooks);
+router.get("/book-aprove", readAprovedBooks);
 router.post("/books", authenticated, createBooks);
 router.patch("/books/:id", authenticated, updateBooks);
 router.delete("/books/:id", authenticated, deleteBooks);
@@ -54,5 +58,16 @@ const { register, login, checkAuth } = require("../controller/auth");
 router.post("/register", register);
 router.post("/login", login);
 router.get("/checkAuth", authenticated, checkAuth);
+
+//library
+const {
+  readOneLibrary,
+  createLibrary,
+  deleteLibrary,
+} = require("../controller/libraries");
+
+router.get("/mark/:id", readOneLibrary);
+router.delete("/mark/:id", deleteLibrary);
+router.post("/mark", createLibrary);
 
 module.exports = router;

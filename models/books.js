@@ -22,6 +22,8 @@ module.exports = (sequelize, DataTypes) => {
           name: "userId",
         },
       });
+
+      Books.hasMany(models.Library);
     }
   }
   Books.init(

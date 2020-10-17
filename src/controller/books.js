@@ -1,4 +1,5 @@
-const { User, Category, Books } = require("../../models");
+const { User, Category, Books, Library } = require("../../models");
+const library = require("../../models/library");
 
 exports.getBooks = async (req, res) => {
   try {
@@ -22,7 +23,15 @@ exports.getBooks = async (req, res) => {
       ],
 
       attributes: {
-        exclude: ["createdAt", "updatedAt",, "userId", "categoryId", "UserId", "CategoryId"],
+        exclude: [
+          "createdAt",
+          "updatedAt",
+          ,
+          "userId",
+          "categoryId",
+          "UserId",
+          "CategoryId",
+        ],
       },
     });
 
@@ -49,7 +58,73 @@ exports.readOneBooks = async (req, res) => {
         id,
       },
       attributes: {
-        exclude: ["createdAt", "updatedAt",, "userId", "categoryId", "UserId", "CategoryId"],
+        exclude: [
+          "createdAt",
+          "updatedAt",
+          ,
+          "userId",
+          "categoryId",
+          "UserId",
+          "CategoryId",
+        ],
+      },
+      include: [
+        {
+          model: User,
+          as: "bookUser",
+          attributes: {
+            exclude: ["createdAt", "updatedAt"],
+          },
+        },
+
+        {
+          model: Category,
+          as: "bookCategory",
+          attributes: {
+            exclude: ["createdAt", "updatedAt"],
+          },
+        },
+
+        {
+          model: Library,
+          attributes: {
+            exclude: ["createdAt", "updatedAt", "BookId", "UserId"],
+          },
+        },
+      ],
+    });
+
+    res.send({
+      message: "Response Successfuly Loaded",
+      data: { detail: detailBooks },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({
+      error: {
+        message: "Server ERROR",
+      },
+    });
+  }
+};
+
+exports.readUserBooks = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userBooks = await Books.findAll({
+      where: {
+        userId: id,
+      },
+      attributes: {
+        exclude: [
+          "createdAt",
+          "updatedAt",
+          ,
+          "userId",
+          "categoryId",
+          "UserId",
+          "CategoryId",
+        ],
       },
       include: [
         {
@@ -68,12 +143,61 @@ exports.readOneBooks = async (req, res) => {
           },
         },
       ],
-      
     });
 
     res.send({
       message: "Response Successfuly Loaded",
-      data: { detail: detailBooks },
+      data: { detail: userBooks },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({
+      error: {
+        message: "Server ERROR",
+      },
+    });
+  }
+};
+
+exports.readAprovedBooks = async (req, res) => {
+  try {
+    const aprovedBooks = await Books.findAll({
+      where: {
+        status: "Aproved",
+      },
+      attributes: {
+        exclude: [
+          "createdAt",
+          "updatedAt",
+          ,
+          "userId",
+          "categoryId",
+          "UserId",
+          "CategoryId",
+        ],
+      },
+      include: [
+        {
+          model: User,
+          as: "bookUser",
+          attributes: {
+            exclude: ["createdAt", "updatedAt"],
+          },
+        },
+
+        {
+          model: Category,
+          as: "bookCategory",
+          attributes: {
+            exclude: ["createdAt", "updatedAt"],
+          },
+        },
+      ],
+    });
+
+    res.send({
+      message: "Response Successfuly Loaded",
+      data: { all: aprovedBooks },
     });
   } catch (err) {
     console.log(err);
@@ -109,27 +233,31 @@ exports.updateBooks = async (req, res) => {
   try {
     const id = req.params.id;
     const body = req.body;
-    const updateBooks = await Books.update(
-      {
-        categoryId: body.categoryId,
-        title: body.title,
-        publication: body.publication,
-        page: body.page,
-        ISBN: body.ISBN,
-        aboutBook: body.aboutBook,
-        file: body.file,
-        status: body.status,
+    const updateBooks = await Books.update(body, {
+      where: {
+        id,
       },
-      {
+    });
+
+    if (updateBooks) {
+      const book = await Books.findOne({
         where: {
           id,
         },
         attributes: {
-          exclude: ["createdAt", "updatedAt"],
+          exclude: ["createdAt", "updateAt"],
         },
-        individualHooks: true,
-      }
-    );
+      });
+
+      return res.status(500).send({
+        message: "Book Successfuly Update",
+        data: book,
+      });
+    } else {
+      return res.status(404).send({
+        message: "Book didn't exist",
+      });
+    }
 
     res.send({
       message: "Category has succesfully created",
