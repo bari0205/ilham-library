@@ -73,19 +73,31 @@ exports.updateUser = async (req, res) => {
   try {
     const id = req.params.id;
     const body = req.body;
-    const updateCategory = await Category.update({
-      body,
+    const updateUser = await User.update(body, {
       where: {
         id,
       },
     });
 
-    res.send({
-      message: "Category has succesfully created",
-      data: {
-        update: updateCategory,
-      },
-    });
+    if (updateUser) {
+      const user = await User.findOne({
+        where: {
+          id,
+        },
+        attributes: {
+          exclude: ["createdAt", "updateAt"],
+        },
+      });
+
+      return res.status(500).send({
+        message: "User Successfuly Update",
+        data: user,
+      });
+    } else {
+      return res.status(404).send({
+        message: "User didn't exist",
+      });
+    }
   } catch (err) {
     console.log(err);
     res.status(500).send({

@@ -24,12 +24,13 @@ const {
   getUser,
   readOneUser,
   createUser,
-  updateUser,
   deleteUser,
+  updateUser,
 } = require("../controller/user");
 
 router.get("/user", getUser);
 router.get("/user/:id", readOneUser);
+router.patch("/user/:id", updateUser);
 router.post("/user", createUser);
 router.delete("/user/:id", deleteUser);
 
