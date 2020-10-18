@@ -161,9 +161,62 @@ exports.readUserBooks = async (req, res) => {
 
 exports.readAprovedBooks = async (req, res) => {
   try {
+    const { id } = req.params;
     const aprovedBooks = await Books.findAll({
       where: {
         status: "Aproved",
+      },
+      attributes: {
+        exclude: [
+          "createdAt",
+          "updatedAt",
+          ,
+          "userId",
+          "categoryId",
+          "UserId",
+          "CategoryId",
+        ],
+      },
+      include: [
+        {
+          model: User,
+          as: "bookUser",
+          attributes: {
+            exclude: ["createdAt", "updatedAt"],
+          },
+        },
+
+        {
+          model: Category,
+          as: "bookCategory",
+          attributes: {
+            exclude: ["createdAt", "updatedAt"],
+          },
+        },
+      ],
+    });
+
+    res.send({
+      message: "Response Successfuly Loaded",
+      data: { all: aprovedBooks },
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({
+      error: {
+        message: "Server ERROR",
+      },
+    });
+  }
+};
+
+exports.readAprovedBooksCategory = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const aprovedBooks = await Books.findAll({
+      where: {
+        status: "Aproved",
+        categoryId: id,
       },
       attributes: {
         exclude: [

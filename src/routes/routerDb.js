@@ -43,12 +43,14 @@ const {
   deleteBooks,
   readUserBooks,
   readAprovedBooks,
+  readAprovedBooksCategory,
 } = require("../controller/books");
 
 router.get("/books", getBooks);
 router.get("/books/:id", readOneBooks);
 router.get("/book-user/:id", readUserBooks);
 router.get("/book-aprove", readAprovedBooks);
+router.get("/book-aprove/:id", readAprovedBooksCategory);
 router.post("/books", authenticated, createBooks);
 router.patch("/books/:id", authenticated, updateBooks);
 router.delete("/books/:id", authenticated, deleteBooks);
