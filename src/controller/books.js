@@ -4,6 +4,7 @@ const library = require("../../models/library");
 exports.getBooks = async (req, res) => {
   try {
     const books = await Books.findAll({
+      order: [["createdAt", "DESC"]],
       include: [
         {
           model: User,
@@ -112,6 +113,7 @@ exports.readUserBooks = async (req, res) => {
   try {
     const { id } = req.params;
     const userBooks = await Books.findAll({
+      order: [["createdAt", "DESC"]],
       where: {
         userId: id,
       },
@@ -163,6 +165,7 @@ exports.readAprovedBooks = async (req, res) => {
   try {
     const { id } = req.params;
     const aprovedBooks = await Books.findAll({
+      order: [["createdAt", "DESC"]],
       where: {
         status: "Aproved",
       },
@@ -214,6 +217,7 @@ exports.readAprovedBooksCategory = async (req, res) => {
   try {
     const { id } = req.params;
     const aprovedBooks = await Books.findAll({
+      order: [["createdAt", "DESC"]],
       where: {
         status: "Aproved",
         categoryId: id,

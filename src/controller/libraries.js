@@ -7,6 +7,7 @@ exports.readOneLibrary = async (req, res) => {
   try {
     const { id } = req.params;
     const detailLibrary = await Library.findAll({
+      order: [["createdAt", "DESC"]],
       where: {
         userId: id,
       },
