@@ -1,7 +1,7 @@
 const { User } = require("../../models");
 
 //dec or en data like password
-const bycript = require("bcrypt");
+const bycript = require("bcrypt-nodejs");
 
 //make token
 const jwt = require("jsonwebtoken");
