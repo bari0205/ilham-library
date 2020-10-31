@@ -6,16 +6,9 @@
   "scripts": {
     "start": "nodemon server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://gitlab.com/bari0205/dw188ylmz_backend.git"
-  },
+  
   "author": "barii",
   "license": "ISC",
-  "bugs": {
-    "url": "https://gitlab.com/bari0205/dw188ylmz_backend/issues"
-  },
-  "homepage": "https://gitlab.com/bari0205/dw188ylmz_backend#readme",
   "dependencies": {
     "@hapi/joi": "^17.1.1",
     "bcrypt": "^5.0.0",
