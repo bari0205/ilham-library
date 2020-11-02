@@ -1,5 +1,6 @@
 //import express module
 const express = require("express");
+require("express-group-routes");
 
 //use express in app variable
 const app = express();
@@ -13,11 +14,11 @@ const cors = require("cors");
 const router = require("./src/routes/router");
 const routerDb = require("./src/routes/routerDb");
 
+app.use("/api/v1/", routerDb);
+
 app.use(express.json());
 
 app.use(cors());
-
-app.use("/api/v1/", routerDb);
 
 //define the server port
 const port = process.env.PORT || 5000;

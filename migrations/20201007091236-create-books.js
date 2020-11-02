@@ -31,6 +31,9 @@ module.exports = {
       title: {
         type: Sequelize.STRING,
       },
+      author: {
+        type: Sequelize.STRING,
+      },
       publication: {
         type: Sequelize.STRING,
       },
@@ -47,6 +50,9 @@ module.exports = {
         type: Sequelize.STRING,
       },
       status: {
+        type: Sequelize.STRING,
+      },
+      image: {
         type: Sequelize.STRING,
       },
       createdAt: {
