@@ -10,7 +10,7 @@ const jwt = require("jsonwebtoken");
 const joi = require("@hapi/joi");
 
 //key for decrypt jwt token
-const jwtKey = process.env.JWT_KEY;
+const jwtKey = "in1token";
 
 exports.checkAuth = async (req, res) => {
   try {

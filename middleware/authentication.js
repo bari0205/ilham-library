@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const jwtkey = process.env.JWT_KEY;
+const jwtkey = "in1token";
 
 exports.authenticated = (req, res, next) => {
   let header, token;
