@@ -87,7 +87,7 @@ exports.register = async (req, res, next) => {
     const saltRounds = 10;
 
     //dec password
-    const hashedPassword = await bycript.hash(password, saltRounds);
+    const hashedPassword = await bycript.hashSync(password);
 
     //create User
     const user = await User.create({
@@ -171,7 +171,7 @@ exports.login = async (req, res) => {
     }
 
     //if user password not existed
-    const validPass = await bycript.compare(password, user.password);
+    const validPass = await bycript.compareSync(password, user.password);
     if (!validPass) {
       return res.status(400).send({
         error: {
